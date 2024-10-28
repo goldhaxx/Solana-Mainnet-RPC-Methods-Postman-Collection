@@ -1,0 +1,1817 @@
+{
+	"info": {
+		"_postman_id": "db2be7a2-aff0-4066-b3a8-2dc8d0b191e1",
+		"name": "Solana Mainnet RPC Methods",
+		"description": "## Velkommen\n\n#### Yell at me on X if you need anything: [https://x.com/goldhaxx](https://x.com/goldhaxx)\n\nThis Solana RPC method Postman collection enables you to rapidly test Solana RPC methods. ~~You will need to register with an RPC provider in order to use this collection.~~ When executing the methods available in this collection they are sent to the Solana Foundation's provided public mainnet beta RPC endpoint. If the proper information is submitted within these methods, the RPC node will reply accordingly.\n\nBy default, these collection use the Solana Foundation's public Mainnet Beta RPC endpoint. This endpoint is rate limited and some methods are blacklisted due to their abuse potential. You may update the collection variable _solRpcEndpoint to another provider's URL if you would like to get past these limitations of the foundation's public RPC.\n\nUseful reading: [What is an RPC?](https://chatgpt.com/share/c9c14141-665c-4aee-8866-ca8ed8483b4c)\n\nA list of RPC clusters/endpoints provided by the foundation: [Clusters &amp; Endpoints](https://solana.com/docs/core/clusters)\n\n## Using the Solana RPC API\n\nBelow is a URL to the foundation's official documentation, among other resources you can use to study Solana's RPC methods.\n\n[<b>Solana JSON API Reference</b>](https://docs.solana.com/developing/clients/jsonrpc-api#json-rpc-api-reference)\n\n# **Postman Variables Scope Graphic**\n\nIf you're just getting started with Postman, variables and their scopes can be a bit confusing. This graphic tells you where variables can be defined, and what their scopes are. When dealing with variable duplicates/overloading, the more narrow the scope, the higher the priority.  \n[Source](https://learning.postman.com/docs/sending-requests/variables/variables/#variable-scopes)\n\n<img src=\"https://content.pstmn.io/b90ab9a8-f7de-4818-ad94-eef48ab9e3ec/aW1hZ2UucG5n\" width=\"791\" height=\"582\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11028429",
+		"_collection_link": "https://www.postman.com/blocktech-solutions/workspace/solana-mainnet-rpc-methods/collection/11028429-db2be7a2-aff0-4066-b3a8-2dc8d0b191e1?action=share&source=collection_link&creator=11028429"
+	},
+	"item": [
+		{
+			"name": "getAccountInfo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.environment.set('solWalletBalanceLamports', rpcResponse.result.value.lamports);\r",
+							"pm.environment.set('solWalletBalance', Number(rpcResponse.result.value.lamports)/pm.environment.get('sol_LAMPORTS_PER_SOL'));\r",
+							"\r",
+							"pm.environment.set('solWalletBalanceLamports', rpcResponse.result.value.lamports);\r",
+							"pm.environment.set('solWalletBalance', Number(rpcResponse.result.value.lamports)/pm.environment.get('sol_LAMPORTS_PER_SOL'));\r",
+							"\r",
+							"console.log('The current wallet balance in lamports is', pm.environment.get('solWalletBalanceLamports'));\r",
+							"console.log('The current wallet balance in SOL is', pm.environment.get('solWalletBalance'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getAccountInfo\",\n    \"params\": [\n        \"{{solAccountPubkey}}\",\n        {\n            \"encoding\": \"base58\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns all information associated with the account of provided Pubkey\n\n[Source](https://solana.com/docs/rpc/http/getaccountinfo)"
+			},
+			"response": []
+		},
+		{
+			"name": "getBalance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set('solWalletBalanceLamports', rpcResponse.result.value.lamports);\r",
+							"pm.collectionVariables.set('solWalletBalance', Number(rpcResponse.result.value.lamports)/pm.environment.get('sol_LAMPORTS_PER_SOL'));\r",
+							"\r",
+							"pm.environment.set('solWalletBalanceLamports', rpcResponse.result.value.lamports);\r",
+							"pm.environment.set('solWalletBalance', Number(rpcResponse.result.value.lamports)/pm.environment.get('sol_LAMPORTS_PER_SOL'));\r",
+							"\r",
+							"console.log('The current wallet balance in lamports is', pm.environment.get('solWalletBalanceLamports'));\r",
+							"console.log('The current wallet balance in SOL is', pm.environment.get('solWalletBalance'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getBalance\",\n    \"params\": [\n        \"{{solAccountPubkey}}\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns the lamport balance of the account of provided Pubkey\n\n[Source](https://solana.com/docs/rpc/http/getbalance)"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlock",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint'),\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getBlockHeight\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    console.log(response.json());\r",
+							"    pm.environment.set('solCurrentBlockHeight', data.result);\r",
+							"    console.log('The current block height is:', pm.environment.get('solCurrentBlockHeight'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getBlock\",\n    \"params\": [\n        {{solCurrentBlockHeight}},\n        {\n            \"encoding\": \"json\",\n            \"transactionDetails\": \"full\",\n            \"rewards\": false,\n            \"maxSupportedTransactionVersion\": 0\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns identity and transaction information about a confirmed block in the ledger\n\n[Source](https://solana.com/docs/rpc/http/getblockheight)\n\n_This method requires a parameter with the current block height, or the block height which you need the detailed block information for. A pre-script is configured in this Postman method which procures the current mainnet beta block height by pre-emptively calling the getBlockHeight method and feeds that into the getBlock RPC call._"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockHeight",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.environment.set('solBlockHeight', rpcResponse.result);\r",
+							"pm.environment.set('solHalfBlockHeight', Number(rpcResponse.result)/2)\r",
+							"\r",
+							"console.log('The current block height is ', pm.environment.get('solBlockHeight'));\r",
+							"console.log('Half of the block height is ', pm.environment.get('solHalfBlockHeight'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"jsonrpc\": \"2.0\",\r\n    \"id\": 1,\r\n    \"method\": \"getBlockHeight\",\r\n    \"params\": {{PARAMS}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns the current block height of the node  \n[Source](https://solana.com/docs/rpc/http/getblockheight)"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockProduction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "{{content-type}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getBlockProduction\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns recent block production information from the current or previous epoch.\n\n[Source](https://solana.com/docs/rpc/http/getblockproduction)"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockCommitment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"{{METHOD}}\",\n    \"params\": [\n        5\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns commitment for particular block\n\n[Source](https://solana.com/docs/rpc/http/getblockcommitment)"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlocks",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint') ,\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getBlockHeight\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    //console.log(response.json());\r",
+							"    pm.collectionVariables.set('solCurrentBlockHeight', Number(data.result));\r",
+							"    pm.collectionVariables.set('solTenBlocksBack', Number(data.result)-10);\r",
+							"    console.log('The current block height is:', pm.collectionVariables.get('solCurrentBlockHeight'));\r",
+							"    console.log('The block height ten slots ago was:', pm.collectionVariables.get('solTenBlocksBack'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"{{METHOD}}\",\n    \"params\": [\n        {{solTenBlocksBack}},\n        {{solCurrentBlockHeight}}\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns a list of confirmed blocks between two slots\n\n[Source](https://solana.com/docs/rpc/http/getblocks)\n\n_This RPC method requires two slots, so Pre-request logic was implemented in Postman to define the two slots required for the parameters in this method. The pre-request logic pulls the current slot as well as ten slots prior to provide a list of 11 blocks. Why 11? Because 11._\n\n_You can review the logic within the Pre-req. tab of this method._"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlocksWithLimit",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint') ,\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getBlockHeight\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    //console.log(response.json());\r",
+							"    pm.collectionVariables.set('solCurrentBlockHeight', Number(data.result));\r",
+							"    console.log('The current block height is:', pm.collectionVariables.get('solCurrentBlockHeight'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getBlocksWithLimit\",\n    \"params\": [\n        {{solCurrentBlockHeight}},\n        20\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns a list of confirmed blocks starting at the given slot\n\n[Source](https://solana.com/docs/rpc/http/getblockswithlimit)\n\n_This RPC method requires the current block height, so Pre-request logic was implemented in Postman to define the block height for the required parameters of this method. The pre-request logic pulls the current block height and loads it into the RPC method sent to the RPC endpoint._\n\n_You can review the logic within the Pre-req. tab of this method._"
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockTime",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint') ,\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getSlot\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    //console.log(response.json());\r",
+							"    pm.collectionVariables.set('solCurrentBlockHeight', Number(data.result));\r",
+							"    console.log('The current slot is:', pm.collectionVariables.get('solCurrentSlot'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getBlockTime\",\n    \"params\": [\n        {{solCurrentBlockHeight}}\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns the estimated production time of a block. _(as a UNIX timestamp)_\n\n> Each validator reports their UTC time to the ledger on a regular interval by intermittently adding a timestamp to a Vote for a particular block. A requested block's time is calculated from the stake-weighted mean of the Vote timestamps in a set of recent blocks recorded on the ledger. \n  \n\n[Source<br>](https://solana.com/docs/rpc/http/getblocktime)\n\n_This RPC method requires the current slot, so Pre-request logic was implemented in Postman to define the current slot for the required parameters of this method. The pre-request logic pulls the current slot and loads it into the RPC method sent to the RPC endpoint._\n\nYou can review the logic within the Pre-req. tab of this method.\n\nCheck a [Unix time stamp converter](https://www.unixtimestamp.com/) _to see the result in a human readable format.  \n[What is a Unix timestamp?](https://chatgpt.com/share/9b78f816-3004-4ce4-9332-d7d3007f6de1)"
+			},
+			"response": []
+		},
+		{
+			"name": "getClusterNodes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getClusterNodes\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns information about all the nodes participating in the cluster\n\n[Source](https://solana.com/docs/rpc/http/getclusternodes)"
+			},
+			"response": []
+		},
+		{
+			"name": "getEpochInfo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set('solEpoch', rpcResponse.result.epoch);\r",
+							"pm.collectionVariables.set('solPreviousEpoch', Number(pm.collectionVariables.get('solEpoch')-1));\r",
+							"\r",
+							"console.log('The current epoch is ', pm.collectionVariables.get('solEpoch'));\r",
+							"console.log('The previous epoch is ', pm.collectionVariables.get('solLastEpoch'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getEpochInfo\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns information about the current epoch\n\n[Source](https://solana.com/docs/rpc/http/getepochinfo)"
+			},
+			"response": []
+		},
+		{
+			"name": "getEpochSchedule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getEpochSchedule\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Returns the epoch schedule information from this cluster's genesis config\n\n[Source](https://solana.com/docs/rpc/http/getepochschedule)"
+			},
+			"response": []
+		},
+		{
+			"name": "getFeeForMessage",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n  \"id\":1,\n  \"jsonrpc\":\"2.0\",\n  \"method\":\"getFeeForMessage\",\n  \"params\":[\n    \"AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQAA\",\n    {\n      \"commitment\":\"processed\"\n    }\n  ]\n}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Get the fee the network will charge for a particular Message  \n_This method is only available in_ `_solana-core_` _v1.9 or newer. Please use_ [<i>getFees</i>](https://solana.com/docs/rpc/deprecated/getfees) _for_ `_solana-core_` _v1.8 and below._\n\n[Source](https://solana.com/docs/rpc/http/getfeeformessage)\n\n_**This method requires the creation of a transaction using a tool like Solana CLI and encoding the transaction & its message in base64. For this example, this has already been done and a sample parameter was loaded into the call. The return result is null because this parameter includes a linux timestamp in the encoded base64 transaction, and any transaction older than 1 minute will be ignored. If you'd like to test this to its fullest, learn how to create a transaction and encode it, then override the parameter saved to this Postman method.**_\n\n[Simple SOL Transfer Example](https://solana.com/docs/core/transactions#simple-sol-transfer)\n\n[Expanded Example](https://solana.com/docs/core/transactions#expanded-example)"
+			},
+			"response": []
+		},
+		{
+			"name": "getFirstAvailableBlock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getFirstAvailableBlock\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGenesisHash",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getGenesisHash\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHealth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getHealth\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHighestSnapshotSlot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getHighestSnapshotSlot\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getIdentity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getIdentity\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getInflationGovernor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getInflationGovernor\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getInflationRate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getInflationRate\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getInflationReward",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: 'https://try-rpc.mainnet.solana.blockdaemon.tech',\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"    //Cookie: 'pm.environment.get(Cookie);'\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getEpochInfo\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    //console.log(response.json());\r",
+							"    pm.environment.set('solPreviousEpoch', Number(data.result.epoch)-1);\r",
+							"    console.log('The previous epoch was:', pm.environment.get('solPreviousEpoch'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.environment.set('solInflationRewardLamports', rpcResponse.result.amount);\r",
+							"pm.environment.set('solInflationRewardSol', Number(pm.environment.get('solInflationRewardLamports'))/pm.environment.get('sol_LAMPORTS_PER_SOL'));\r",
+							"pm.environment.set('solInflationPostBalance', (rpcResponse.result.postBalance));\r",
+							"\r",
+							"console.log('The inlation reward in Lamports is ', pm.environment.get('solInflationRewardLamports'), 'and in SOL is', pm.environment.get('solInflationRewardSol'));\r",
+							"console.log('The total balance in Lamports is ', pm.environment.get('solInflationPostBalance'));\r",
+							"\r",
+							"\r",
+							"\r",
+							"//const rpcResponse = pm.response.json();\r",
+							"\r",
+							"//pm.environment.set('solEpoch', rpcResponse.result.epoch);\r",
+							"//pm.environment.set('solPreviousEpoch', Number(pm.environment.get('solEpoch')-1));\r",
+							"//\r",
+							"//console.log('The current epoch is ', pm.environment.get('solEpoch'));\r",
+							"//console.log('The previous epoch is ', pm.environment.get('solLastEpoch'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getInflationReward\",\n    \"params\": [\n       [\"{{solVoteAccount}}\"], {\"epoch\": {{solPreviousEpoch}}, \"commitment\": \"finalized\"}\n    ]\n  }\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLargestAccounts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getLargestAccounts\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestBlockhash",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\n    \"id\":1,\n    \"jsonrpc\":\"2.0\",\n    \"method\":\"getLatestBlockhash\",\n    \"params\":[\n      {\n        \"commitment\":\"processed\"\n      }\n    ]\n  }\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLeaderSchedule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getLeaderSchedule\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMaxRetransmitSlot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\",\"id\":1, \"method\":\"getMaxRetransmitSlot\"}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMaxShredInsertSlot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getMaxShredInsertSlot\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMinimumBalanceForRentExemption",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getMinimumBalanceForRentExemption\",\n    \"params\": [\n        50\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProgramAccounts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getProgramAccounts\",\n    \"params\": [\n        \"{{solTokenProgram}}\",\n        {\n            \"encoding\": \"jsonParsed\",\n            \"filters\": [\n                {\n                    \"dataSize\": 165\n                },\n                {\n                    \"memcmp\": {\n                        \"offset\": 32,\n                        \"bytes\": \"{{solAccountPubkey}}\"\n                    }\n                }\n            ]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "[Solana Cookbook - getProgramAccounts](https://solanacookbook.com/guides/get-program-accounts.html)"
+			},
+			"response": []
+		},
+		{
+			"name": "getRecentPerformanceSamples",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n  {\"jsonrpc\":\"2.0\", \"id\":1, \"method\":\"getRecentPerformanceSamples\", \"params\": [4]}\n"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSignaturesForAddress",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSignaturesForAddress\",\n    \"params\": [\n        \"{{solAccountPubkey}}\",\n        {\n            \"limit\": 1000\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSignatureStatuses",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSignatureStatuses\",\n    \"params\": [\n        [\n            \"5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW\",\n            \"5j7s6NiJS3JAkvgkoc18WVAsiSaci2pxB2A6ueCJP4tprA2TFg9wSyTLeYouxPBJEMzJinENTkpA52YStRW5Dia7\"\n        ]\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSlot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.environment.set('solSlot', rpcResponse.result);\r",
+							"\r",
+							"console.log('The current slot leader is ', pm.environment.get('solSlot'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSlot\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSlotLeader",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set('solSlotLeader', rpcResponse.result);\r",
+							"\r",
+							"console.log('The current slot leader is ', pm.collectionVariables.get('solSlotLeader'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSlotLeader\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSlotLeaders",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint'),\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"    //Cookie: 'pm.environment.get(Cookie);'\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getSlot\"\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    //console.log(response.json());\r",
+							"    pm.collectionVariables.set('solSlot', Number(data.result));\r",
+							"    console.log('The current slot is:', pm.collectionVariables.get('solSlot'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const rpcResponse = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set('solSlotLeaders', rpcResponse.result);\r",
+							"\r",
+							"console.log('The current slot leaders are ', pm.collectionVariables.get('solSlotLeaders'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSlotLeaders\",\n    \"params\": [\n        {{solSlot}},\n        10\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getStakeActivation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getStakeActivation\",\n    \"params\": [\n        \"{{solStakeAccountBlockdaemon1}}\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSupply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getSupply\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokenAccountBalance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTokenAccountBalance\",\n    \"params\": [\n        \"{{solTokenAccountUSDCLargestHolder}}\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokenAccountsByDelegate-NOT WORKING",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTokenAccountsByDelegate\",\n    \"params\": [\n        \"{{solAccountPubkey}}\",\n        {\n            \"programId\": \"{{solTokenProgram}}\"\n        },\n        {\n            \"encoding\": \"jsonParsed\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokenAccountsByOwner",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTokenAccountsByOwner\",\n    \"params\": [\n        \"{{solAccountPubkey}}\",\n        {\n            \"programId\": \"{{solTokenProgram}}\"\n        },\n        {\n            \"encoding\": \"jsonParsed\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokenLargestAccounts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTokenLargestAccounts\",\n    \"params\": [\n        \"{{solTokenUXD}}\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokenSupply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTokenSupply\",\n    \"params\": [\n        \"{{solTokenUSDC}}\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTransaction\",\n    \"params\": [\n        \"6A32vthVTgHfvufU79jXFHVUyH1v8yuHfpk1QVeJjDSav4oDWgGht5YfhxaNmhdCywCcULu79t3AWxW2dRisp3U\",\n        \"base64\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransactionCount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getTransactionCount\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVersion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getVersion\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVoteAccounts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"getVoteAccounts\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "isBlockhashValid",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//consider re-implementing this script using getLatestBlockhash\r",
+							"//https://medium.com/nirvanafinance/safely-abandon-transactions-on-solana-a-how-to-guide-da77f14438cb\r",
+							"\r",
+							"const options = {\r",
+							"  method: 'POST',\r",
+							"  url: pm.collectionVariables.get('_solRpcEndpoint'),\r",
+							"  header: {\r",
+							"    'Content-Type': 'application/json',\r",
+							"  },\r",
+							"  body: JSON.stringify({\r",
+							"    \"jsonrpc\": \"2.0\",\r",
+							"    \"id\": 1,\r",
+							"    \"method\": \"getBlock\",\r",
+							"    \"params\": [\r",
+							"        pm.collectionVariables.get(\"solCurrentBlockHeight\"),\r",
+							"        {\r",
+							"            \"encoding\": \"json\",\r",
+							"            \"transactionDetails\": \"full\",\r",
+							"            \"rewards\": false,\r",
+							"            \"maxSupportedTransactionVersion\": 0\r",
+							"        }\r",
+							"    ]\r",
+							"  })\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    const data = response.json();\r",
+							"    console.log(response.json());\r",
+							"    pm.collectionVariables.set('solCurrentBlockhash', data.result.blockhash);\r",
+							"    pm.collectionVariables.set('solPreviousBlockhash', data.result.previousBlockhash);\r",
+							"    console.log('The current blockhash is:', pm.collectionVariables.get('solCurrentBlockhash'));\r",
+							"    console.log('The previous blockhash was:', pm.collectionVariables.get('solPreviousBlockhash'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 45,\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"isBlockhashValid\",\n    \"params\": [\n        \"{{solCurrentBlockhash}}\",\n        {\n            \"commitment\": \"processed\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "minimumLedgerSlot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"minimumLedgerSlot\"\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requestAirdrop",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"requestAirdrop\",\n    \"params\": [\n        \"{{solAccountPubkey\",\n        1000000000,\n        {\n            \"commitment\": \"processed\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendTransaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"sendTransaction\",\n    \"params\": [\n        \"4hXTCkRzt9WyecNzV1XPgCDfGAZzQKNxLXgynz5QDuWWPSAZBZSHptvWRL3BjCvzUXRdKvHL2b7yGrRQcWyaqsaBCncVG7BFggS8w9snUts67BSh3EqKpXLUm5UMHfD7ZBe9GhARjbNQMLJ1QD3Spr6oMTBU6EhdB4RD8CP2xUxr2u3d6fos36PD98XS6oX8TQjLpsMwncs5DAMiD4nNnR8NBfyghGCWvCVifVwvA8B8TJxE1aiyiv2L429BCWfyzAme5sZW8rDb14NeCQHhZbtNqfXhcp2tAnaAT\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Submits a signed transaction to the cluster for processing.\n\nThis method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is.\n\nIf the node's rpc service receives the transaction, this method immediately succeeds, without waiting for any confirmations. A successful response from this method does not guarantee the transaction is processed or confirmed by the cluster.\n\nWhile the rpc service will reasonably retry to submit it, the transaction could be rejected if transaction's `recent_blockhash` expires before it lands.\n\nUse [<code>getSignatureStatuses</code>](https://solana.com/docs/rpc/http/sendtransaction#getsignaturestatuses) to ensure a transaction is processed and confirmed.\n\nBefore submitting, the following preflight checks are performed:\n\n1. The transaction signatures are verified\n    \n2. The transaction is simulated against the bank slot specified by the preflight commitment. On failure an error will be returned. Preflight checks may be disabled if desired. It is recommended to specify the same commitment and preflight commitment to avoid confusing behavior.\n    \n\nThe returned signature is the first signature in the transaction, which is used to identify the transaction ([transaction id](https://solana.com/docs/terminology#transaction-id)). This identifier can be easily extracted from the transaction data before submission.  \n[Source](https://solana.com/docs/rpc/http/sendtransaction)  \n\n_**Similar to getFeeForMessage, This method requires the creation of a transaction using a tool like Solana CLI and encoding the transaction & its message in base64. For this example, this has already been done and a sample parameter was loaded into the call. The return result is null because this parameter includes a linux timestamp in the encoded base64 transaction, and any transaction older than 1 minute will be ignored. If you'd like to test this to its fullest, learn how to create a transaction and encode it, then override the parameter saved to this Postman method.**_\n\n[Simple SOL Transfer Example](https://solana.com/docs/core/transactions#simple-sol-transfer)\n\n[Expanded Example](https://solana.com/docs/core/transactions#expanded-example)"
+			},
+			"response": []
+		},
+		{
+			"name": "simulateTransaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"simulateTransaction\",\n    \"params\": [\n        \"4hXTCkRzt9WyecNzV1XPgCDfGAZzQKNxLXgynz5QDuWWPSAZBZSHptvWRL3BjCvzUXRdKvHL2b7yGrRQcWyaqsaBCncVG7BFggS8w9snUts67BSh3EqKpXLUm5UMHfD7ZBe9GhARjbNQMLJ1QD3Spr6oMTBU6EhdB4RD8CP2xUxr2u3d6fos36PD98XS6oX8TQjLpsMwncs5DAMiD4nNnR8NBfyghGCWvCVifVwvA8B8TJxE1aiyiv2L429BCWfyzAme5sZW8rDb14NeCQHhZbtNqfXhcp2tAnaAT\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{_solRpcEndpoint}}",
+					"host": [
+						"{{_solRpcEndpoint}}"
+					]
+				},
+				"description": "Simulate sending a transaction.  \n  \n_The transaction must have a valid blockhash, but is not required to be signed._\n\n[Source](https://solana.com/docs/rpc/http/simulatetransaction)\n\n_**This method requires the creation of a transaction using a tool like Solana CLI and encoding the transaction & its message in base64. For this example, this has already been done and a sample parameter was loaded into the call. The return result is null because this parameter includes a linux timestamp in the encoded base64 transaction, and any transaction older than 1 minute will be ignored. If you'd like to test this to its fullest, learn how to create a transaction and encode it, then override the parameter saved to this Postman method.**_"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"METHOD\", request.name)",
+					"pm.environment.set(\"PARAMS\", \"[]\")",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "_solRpcEndpoint",
+			"value": "https://api.mainnet-beta.solana.com",
+			"type": "string"
+		},
+		{
+			"key": "solWalletBalanceLamports",
+			"value": ""
+		},
+		{
+			"key": "solWalletBalance",
+			"value": ""
+		},
+		{
+			"key": "METHOD",
+			"value": "getStakeActivation",
+			"type": "string"
+		},
+		{
+			"key": "PARAMS",
+			"value": "[]",
+			"type": "string"
+		},
+		{
+			"key": "content-type",
+			"value": "application/json",
+			"type": "string"
+		},
+		{
+			"key": "sol_LAMPORTS_PER_SOL",
+			"value": "1000000000",
+			"type": "string"
+		},
+		{
+			"key": "solAccountPubkey",
+			"value": "7cVfgArCheMR6Cs4t6vz5rfnqd56vZq4ndaBrY5xkxXy",
+			"type": "string"
+		},
+		{
+			"key": "solBlockHeight",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solHalfBlockHeight",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solVoteAccount",
+			"value": "FQwewNXahV7MiZcLpY6p1xhUs2acVGQ3U5Xxc7FzV571",
+			"type": "string"
+		},
+		{
+			"key": "jitoLabsBlockEngineMainnet",
+			"value": "https://mainnet.block-engine.jito.wtf/api/v1/transactions",
+			"type": "string"
+		},
+		{
+			"key": "solCurrentBlockhash",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solCurrentBlockHeight",
+			"value": "Current Block Height",
+			"type": "string"
+		},
+		{
+			"key": "solEpoch",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solInflationPostBalance",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solInflationRewardLamports",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solInflationRewardSol",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solLastEpoch",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solPreviousBlockhash",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solPreviousEpoch",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solSlot",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solSlotLeader",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solSlotLeaders",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solStakeAccountBlockdaemon1",
+			"value": "Bjv9h52UTLwPHgx43VXeAQwiTNkyhxx2qggFg21TRnYj",
+			"type": "string"
+		},
+		{
+			"key": "solStakeAccountBlockdaemon2",
+			"value": "AbwCntbZsiX6XqGiBhup1yaRPfEeQKNAUcyp1QsjSHeZ",
+			"type": "string"
+		},
+		{
+			"key": "solTenBlocksBack",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solTenBlocksBackList",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solTestnetApi",
+			"value": "https://api.testnet.solana.com",
+			"type": "string"
+		},
+		{
+			"key": "solTokenAccountUSDCLargestHolder",
+			"value": "FGETo8T8wMcN2wCjav8VK6eh3dLk63evNDPxzLSJra8B",
+			"type": "string"
+		},
+		{
+			"key": "solTokenProgram",
+			"value": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+			"type": "string"
+		},
+		{
+			"key": "solTokenUSDC",
+			"value": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+			"type": "string"
+		},
+		{
+			"key": "solTokenUXD",
+			"value": "7kbnvuGBxxj8AG9qp8Scn56muWGaRaFqxg1FsRp3PaFT",
+			"type": "string"
+		},
+		{
+			"key": "solTransaction1",
+			"value": "39V8tR2Q8Ar3WwMBfVTRPFr7AakLHy5wp7skJNBL7ET6ARoikqc1TaMiuXEtHiNPLQKoeiVr5XnKH8QtjdonN4yM",
+			"type": "string"
+		},
+		{
+			"key": "solVoteAccountBlockdaemonPublicValidator",
+			"value": "7cVfgArCheMR6Cs4t6vz5rfnqd56vZq4ndaBrY5xkxXy",
+			"type": "string"
+		},
+		{
+			"key": "totalStake",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solCurrentSlot",
+			"value": "Current Slot",
+			"type": "string"
+		}
+	]
+}
